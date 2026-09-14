@@ -1,0 +1,5 @@
+*.safetensors
+*.tar
+*.tar.gz
+__pycache__/
+.venv/

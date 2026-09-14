@@ -1,0 +1,20 @@
+{
+  "status": "PASS",
+  "device": "cpu",
+  "action_shape": [
+    1,
+    2
+  ],
+  "action": [
+    [
+      265.19287109375,
+      267.49249267578125
+    ]
+  ],
+  "elapsed_seconds": 6.063265750010032,
+  "strict_model_and_saved_processors_loaded": true,
+  "task_success_evaluated": false,
+  "lerobot_revision": "89236ea0f4f81a81ca566081e20dd1ff5f823cbe",
+  "migration_patches_installed_in_tested_source": false,
+  "retrieval_status": "no_reliable_hit"
+}
