@@ -1,8 +1,5 @@
 {
   "retrieval_status": "no_reliable_hit",
-  "archive": "diffusion-pusht-processors-20260915.tar",
-  "bytes": 1050910720,
-  "sha256": "10390b8a56e2f38d1f5a889387acc700db37ccea203c7672a8d48d14989a8929",
   "package_hashes": {
     "LICENSE": "0583375a0ec642ec79c447781f34322b0cfa66baff31258214d040f1f6d86d7c",
     "README.md": "da1b558b016e52b72c92dbf3a6b6b2686deffc55982440ada464ef7d7551c627",
@@ -14,10 +11,9 @@
     "policy_preprocessor.json": "2f22a1e9ccc0392b2076419e87e426cba1082927ec65fa215e8bf9e39da33f9b",
     "policy_preprocessor_step_3_normalizer_processor.safetensors": "392af8778e650720aa230904998d2c11184583d956f0b7eada100afd09bf2378"
   },
-  "archive_members_verified_against_payload": true,
-  "regular_files_only": true,
   "consumer_test_source_clean": true,
   "consumer_revision": "89236ea0f4f81a81ca566081e20dd1ff5f823cbe",
   "original_trained_weights_unchanged": 213,
-  "default_device": "cpu"
+  "default_device": "cpu",
+  "distribution": "small bundle; learned weights obtained from original source"
 }

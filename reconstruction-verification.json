@@ -1,0 +1,18 @@
+{
+  "status": "PASS",
+  "source_revision": "84a7c23178445c6bbf7e1a884ff497017910f653",
+  "source_sha256": "995d14d35db57d95c35ad9704c3d79c8612b7bc45f3877e5c46c2cdc516856a8",
+  "model_sha256": "42bddc7d0fe1ef928d708c207a2c9bb8ab7166c2d2b28d3c6abb955e18fb7594",
+  "core_tensors": 213,
+  "statistic_tensors_removed": 8,
+  "all_packaged_file_checksums_match": true,
+  "existing_output_refused_exit_code": 2,
+  "existing_output_file_sizes_and_mtimes_unchanged": true,
+  "wrong_source_hash_rejected": true,
+  "wrong_source_created_no_output": true,
+  "retrieval_status": "no_reliable_hit",
+  "explicit_local_source_path": "PASS",
+  "hf_managed_reuse_path": "PASS",
+  "cold_download_repeated_for_preparation_test": false,
+  "previous_original_download_verified": true
+}

@@ -1,55 +1,61 @@
-# Diffusion PushT checkpoint with saved processors
+# Diffusion PushT: one-command processor conversion
 
-Download a community-converted copy of the official trained `lerobot/diffusion_pusht` checkpoint, ready for LeRobot's external pre/post processors. **No migration command or migration-PR checkout is needed to load the package.**
+Build a verified saved-processor checkpoint from the official trained `lerobot/diffusion_pusht` weights. The small bundle contains the converted configuration, normalization statistics and a preparation script. **It does not contain the 1.05 GB learned weights**: the script obtains those from the pinned original Hugging Face repository and reconstructs the exact verified checkpoint locally.
 
-The learned model tensors are unchanged. This repository provides a versioned checkpoint archive, source attribution, integrity hashes and a small loading example. It is not an official Hugging Face release or a newly trained policy.
+No patched LeRobot checkout or manual migration edits are required. This is an AI-D community conversion, not an official Hugging Face release or a newly trained policy.
 
-## Download and use
+## Prepare and load
 
-Download `diffusion-pusht-processors-20260915.tar` and `SHA256SUMS` from release `v2026.09.15`. The model archive is approximately 1.05 GB.
-
-```sh
-curl --fail -L -O https://github.com/perigot827/diffusion-pusht-processor-checkpoint/releases/download/v2026.09.15/diffusion-pusht-processors-20260915.tar
-curl --fail -L -O https://github.com/perigot827/diffusion-pusht-processor-checkpoint/releases/download/v2026.09.15/SHA256SUMS
-shasum -a 256 -c SHA256SUMS
-tar -xf diffusion-pusht-processors-20260915.tar
-(cd diffusion-pusht && shasum -a 256 -c SHA256SUMS)
-```
-
-Use `smoke.py` from this repository in a compatible LeRobot environment:
+In a Python environment with LeRobot's diffusion dependencies:
 
 ```sh
-HF_HUB_OFFLINE=1 HF_DATASETS_OFFLINE=1 python smoke.py --checkpoint ./diffusion-pusht --device cpu
+git clone https://github.com/perigot827/diffusion-pusht-processor-checkpoint.git
+cd diffusion-pusht-processor-checkpoint
+python prepare.py
+HF_HUB_OFFLINE=1 HF_DATASETS_OFFLINE=1 python smoke.py --checkpoint diffusion-pusht --device cpu
 ```
 
-It strictly loads the model and saved processors and produces one action from synthetic observations. Pass `--device mps` or `--device cuda` only on a machine supporting that device. The package defaults to CPU. The smoke result is not a task-success evaluation.
+Alternatively, download and extract `processor-bundle-20260915.zip` from the release. Its contents are sufficient for the same commands. Use the release's `SHA256SUMS` to verify that ZIP before extraction.
 
-The tested LeRobot revision is `89236ea0f4f81a81ca566081e20dd1ff5f823cbe`, without either migration patch. For a source checkout, LeRobot's `uv sync --locked --extra diffusion --extra pusht` installs the relevant extras. Python 3.12, torch 2.11.0 and diffusers 0.39.0 were used for the consumer check. The simulator check additionally used gym-pusht 0.1.6 and pymunk 6.11.1.
+Preparation needs torch, safetensors and huggingface-hub; the model-loading examples also need LeRobot. Tested versions: Python 3.12, torch 2.11.0, safetensors 0.8.0, huggingface-hub 1.30.0 and diffusers 0.39.0. The tested, unmodified LeRobot revision is `89236ea0f4f81a81ca566081e20dd1ff5f823cbe`. LeRobot's source checkout supports `uv sync --locked --extra diffusion --extra pusht` for the relevant extras.
+
+The script stores original weights in `.diffusion-pusht-source` and creates `diffusion-pusht`. Allow about 2.2 GB for those weights in addition to the Python environment. It verifies the original and generated model SHA-256, preserves the input, and refuses an existing output directory. On a later run, choose a new `--output` directory. The original download can be reused.
+
+To prepare fully offline from an already-downloaded original model:
+
+```sh
+python prepare.py --source /path/to/original/model.safetensors --output my-checkpoint
+```
+
+`smoke.py` strictly loads the saved model/processors and produces one finite action from synthetic observations. Its result is not a task-success evaluation. CPU is the portable default; use `--device mps` or `--device cuda` only on a supported machine.
 
 ## Run one simulation episode
 
-With LeRobot's `pusht` extra installed, the included evaluator accepts the same checkpoint directory:
+With the `pusht` extra installed:
 
 ```sh
-SDL_VIDEODRIVER=dummy PYGAME_HIDE_SUPPORT_PROMPT=1 HF_HUB_OFFLINE=1 HF_DATASETS_OFFLINE=1 python evaluate_pusht.py --checkpoint ./diffusion-pusht --device cpu --report pusht-result.json
+SDL_VIDEODRIVER=dummy PYGAME_HIDE_SUPPORT_PROMPT=1 HF_HUB_OFFLINE=1 HF_DATASETS_OFFLINE=1 python evaluate_pusht.py --checkpoint diffusion-pusht --device cpu --report pusht-result.json
 ```
 
-Use `--device mps` on a supported Apple machine to reproduce the packaged-checkpoint smoke configuration. The evaluator runs one seed (100000 by default), at most 300 environment steps, and records the observed outcome. It does not retrain the model.
+The evaluator runs one seed (100000 by default), at most 300 environment steps, with 100 diffusion sampling steps. It does not retrain the model. The final checkpoint succeeded in one MPS smoke rollout: 251 environment steps, maximum reward 1.0. This is not a reproduction of the upstream 500-episode benchmark.
 
-## What changed and what was tested
+## Evidence
 
-- Original: [lerobot/diffusion_pusht at 84a7c231](https://huggingface.co/lerobot/diffusion_pusht/tree/84a7c23178445c6bbf7e1a884ff497017910f653). Original model SHA-256: `995d14d35db57d95c35ad9704c3d79c8612b7bc45f3877e5c46c2cdc516856a8`.
-- All **213 core tensors** retained exactly; **8 legacy statistic tensors** extracted into processors. Converted model SHA-256: `42bddc7d0fe1ef928d708c207a2c9bb8ab7166c2d2b28d3c6abb955e18fb7594`.
-- Saved processor normalization checked numerically at four points each for state, image and action.
-- Migration used the tuple helper from [PR4457](https://github.com/huggingface/lerobot/pull/4457) and offline card fix from [PR4635](https://github.com/huggingface/lerobot/pull/4635); combined regression tests: 11 passed.
-- The converted weights/processors succeeded in **one** MPS PushT episode: seed 100000, 251 environment steps, maximum reward 1.0. That check preceded the CPU-default packaging changes. See `migration-smoke-result.json`.
-- The packaged checkpoint loaded and inferred on **CPU using unmodified LeRobot**, without fetching anything from the Hub. See `consumer-verification.json`.
-- The included evaluator also completed one MPS episode using the final packaged checkpoint and the same unmodified LeRobot revision: 251 steps, maximum reward 1.0, success. See `packaged-simulation-result.json`. This is another smoke run of the same seed, not an independent performance estimate.
+- Original model revision: `84a7c23178445c6bbf7e1a884ff497017910f653`; SHA-256 `995d14d35db57d95c35ad9704c3d79c8612b7bc45f3877e5c46c2cdc516856a8`.
+- All 213 core model tensors unchanged. Eight legacy normalization buffers are extracted into the saved processors. Reconstructed model SHA-256: `42bddc7d0fe1ef928d708c207a2c9bb8ab7166c2d2b28d3c6abb955e18fb7594`.
+- Numerical state/image/action normalization checks pass at four input points each.
+- Both explicit local-source preparation and the Hugging Face managed download/reuse path were exercised. The latter reused the previously verified original download; it was not another cold download.
+- The reconstructed files match the previously verified checkpoint byte for byte. The reconstructed model also strictly loads and infers on CPU using unmodified LeRobot.
+- Existing output is refused without changing its files; an incorrect source hash is rejected before creating output.
 
-This does not reproduce the model card's 500-episode benchmark. It establishes neither real-robot suitability nor adoption or labor savings. The source repository has the original training and benchmark context. This repository's conversion work and tests were performed by AI-D using Codex; no human review or upstream endorsement is claimed.
+See `reconstruction-verification.json`, `consumer-verification.json`, `packaged-simulation-result.json` and `package-verification.json`. The earlier `migration-smoke-result.json` is another run of the same seed, not an independent estimate of success rate.
 
-## Provenance and license
+## Origin and license
 
-The original model declares Apache-2.0. `LICENSE` preserves the upstream LeRobot license text; `UPSTREAM_MODEL_CARD.md` preserves the original model card. The packaged model card explains the conversion, correct dataset attribution and CPU-default changes. Model: The Hugging Face / LeRobot authors and contributors; Diffusion Policy method: Chi et al. Packaging and smoke example: AI-D contributors, Apache-2.0.
+Source: [official model at the pinned revision](https://huggingface.co/lerobot/diffusion_pusht/tree/84a7c23178445c6bbf7e1a884ff497017910f653), Apache-2.0. `UPSTREAM_MODEL_CARD.md` and `LICENSE` preserve the original attribution and license text. Original model: The Hugging Face / LeRobot authors and contributors; method: Diffusion Policy, Chi et al.; dataset: `lerobot/pusht`.
+
+The initial migration combined [PR4457](https://github.com/huggingface/lerobot/pull/4457) and [PR4635](https://github.com/huggingface/lerobot/pull/4635), with 11 combined regression tests passing. The bundled configuration corrects dataset attribution and defaults to CPU. `prepare.py` recreates the same output without invoking those migration changes.
+
+AI-D prepared and tested this work using Codex. No human review, upstream endorsement, real-robot suitability, third-party adoption or human labor savings are claimed.
 
 retrieval_status: no_reliable_hit.
