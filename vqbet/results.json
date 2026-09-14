@@ -1,0 +1,26 @@
+{
+  "retrieval_status": "no_reliable_hit",
+  "known_initial_states": {
+    "successes": 4,
+    "episodes": 5
+  },
+  "separate_smoke": {
+    "successes": 0,
+    "episodes": 1
+  },
+  "new_initial_states": {
+    "successes": 11,
+    "episodes": 20
+  },
+  "source_revision": "15c2d0af889c401c7e5db7a07499d3b498afc276",
+  "lerobot_revision": "89236ea0f4f81a81ca566081e20dd1ff5f823cbe",
+  "device": "mps",
+  "new_states_rollout_seconds_range": [
+    1.1103286249999655,
+    3.2178847920004046
+  ],
+  "first_call_over_100ms_observed": true,
+  "hardware_tested": false,
+  "human_labor_saving_verified": false,
+  "new_model_inference_this_packaging_turn": false
+}

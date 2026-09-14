@@ -61,3 +61,7 @@ The initial migration combined [PR4457](https://github.com/huggingface/lerobot/p
 AI-D prepared and tested this work using Codex. No human review, upstream endorsement, real-robot suitability, third-party adoption or human labor savings are claimed.
 
 retrieval_status: no_reliable_hit.
+
+## VQ-BeT companion kit
+
+A [separate VQ-BeT kit](vqbet/README.md) reconstructs the official158MB VQ-BeT PushT checkpoint with saved processors. It includes the earlier11/20 new-state result and failure limits. This companion does not change the Diffusion checkpoint or evaluation above.

@@ -1,0 +1,44 @@
+{
+  "state": "RECONSTRUCTED_FILES_MATCH_VERIFIED_CHECKPOINT",
+  "retrieval_status": "no_reliable_hit",
+  "source_revision": "15c2d0af889c401c7e5db7a07499d3b498afc276",
+  "source_model_sha256": "f60b22049b275c026159fd4fcc018721ffbec47119ecfab98dc84814eb4e0d30",
+  "reconstructed_files": {
+    "LICENSE": "0583375a0ec642ec79c447781f34322b0cfa66baff31258214d040f1f6d86d7c",
+    "README.md": "a2c15fb71684a7154218fb5bbc02e0ed388dedd58b10729c548ea555ee662cc6",
+    "UPSTREAM_MODEL_CARD.md": "af63e0b129e301f910ce35027d16b06d71e95ee001a67a5e07caf13164ab998e",
+    "config.json": "f762006070b8f53dfa57c2291b09f3395f43a363e6cea1245cb1d4ddbfb21323",
+    "model.safetensors": "2b1f2e478621f91a00c36cfa0dc06bf8f5ab1cc7d1bc1d86f58e53fec33b866b",
+    "policy_postprocessor.json": "3449528c2dac8af150b108c99a87cd32b279fe529d1363acc98ad6a0a9178d20",
+    "policy_postprocessor_step_0_unnormalizer_processor.safetensors": "f56c726358235d3d17e353808a3a63544cd84c59c27f21553a9372858ad1d24f",
+    "policy_preprocessor.json": "0a52a88c5c993c58e377504521d2fe4219baf37fbf5819d93ed3e22115d67d13",
+    "policy_preprocessor_step_3_normalizer_processor.safetensors": "f56c726358235d3d17e353808a3a63544cd84c59c27f21553a9372858ad1d24f"
+  },
+  "core_tensors": 207,
+  "statistic_tensors_removed": 6,
+  "guards": [
+    {
+      "case": "existing_output",
+      "exit_code": 2,
+      "existing_files_unchanged": true,
+      "new_output_not_created": false
+    },
+    {
+      "case": "wrong_source",
+      "exit_code": 1,
+      "existing_files_unchanged": true,
+      "new_output_not_created": true
+    },
+    {
+      "case": "damaged_metadata",
+      "exit_code": 1,
+      "existing_files_unchanged": true,
+      "new_output_not_created": true
+    }
+  ],
+  "source_unchanged": true,
+  "new_model_inference_calls": 0,
+  "new_downloads": 0,
+  "fresh_environment_installation_tested": false,
+  "full_goal_achieved": false
+}
