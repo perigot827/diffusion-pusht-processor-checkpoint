@@ -26,6 +26,16 @@ It strictly loads the model and saved processors and produces one action from sy
 
 The tested LeRobot revision is `89236ea0f4f81a81ca566081e20dd1ff5f823cbe`, without either migration patch. For a source checkout, LeRobot's `uv sync --locked --extra diffusion --extra pusht` installs the relevant extras. Python 3.12, torch 2.11.0 and diffusers 0.39.0 were used for the consumer check. The simulator check additionally used gym-pusht 0.1.6 and pymunk 6.11.1.
 
+## Run one simulation episode
+
+With LeRobot's `pusht` extra installed, the included evaluator accepts the same checkpoint directory:
+
+```sh
+SDL_VIDEODRIVER=dummy PYGAME_HIDE_SUPPORT_PROMPT=1 HF_HUB_OFFLINE=1 HF_DATASETS_OFFLINE=1 python evaluate_pusht.py --checkpoint ./diffusion-pusht --device cpu --report pusht-result.json
+```
+
+Use `--device mps` on a supported Apple machine to reproduce the packaged-checkpoint smoke configuration. The evaluator runs one seed (100000 by default), at most 300 environment steps, and records the observed outcome. It does not retrain the model.
+
 ## What changed and what was tested
 
 - Original: [lerobot/diffusion_pusht at 84a7c231](https://huggingface.co/lerobot/diffusion_pusht/tree/84a7c23178445c6bbf7e1a884ff497017910f653). Original model SHA-256: `995d14d35db57d95c35ad9704c3d79c8612b7bc45f3877e5c46c2cdc516856a8`.
@@ -34,6 +44,7 @@ The tested LeRobot revision is `89236ea0f4f81a81ca566081e20dd1ff5f823cbe`, witho
 - Migration used the tuple helper from [PR4457](https://github.com/huggingface/lerobot/pull/4457) and offline card fix from [PR4635](https://github.com/huggingface/lerobot/pull/4635); combined regression tests: 11 passed.
 - The converted weights/processors succeeded in **one** MPS PushT episode: seed 100000, 251 environment steps, maximum reward 1.0. That check preceded the CPU-default packaging changes. See `migration-smoke-result.json`.
 - The packaged checkpoint loaded and inferred on **CPU using unmodified LeRobot**, without fetching anything from the Hub. See `consumer-verification.json`.
+- The included evaluator also completed one MPS episode using the final packaged checkpoint and the same unmodified LeRobot revision: 251 steps, maximum reward 1.0, success. See `packaged-simulation-result.json`. This is another smoke run of the same seed, not an independent performance estimate.
 
 This does not reproduce the model card's 500-episode benchmark. It establishes neither real-robot suitability nor adoption or labor savings. The source repository has the original training and benchmark context. This repository's conversion work and tests were performed by AI-D using Codex; no human review or upstream endorsement is claimed.
 
