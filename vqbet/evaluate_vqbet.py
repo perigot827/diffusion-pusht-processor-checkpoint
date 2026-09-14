@@ -71,7 +71,7 @@ result = {
     "elapsed_seconds": time.monotonic()-start,
     "policy_type": "vqbet", "action_chunk_size": cfg.action_chunk_size,
     "policy_action_timing": {"includes_pre_post_processing_and_cpu_materialization": True, "includes_environment_step": False, "count": len(trajectory), "mean_seconds": float(np.mean([r["policy_action_seconds"] for r in trajectory])), "max_seconds": max(r["policy_action_seconds"] for r in trajectory), "over_100ms_count": sum(r["policy_action_seconds"] > .1 for r in trajectory)},
-    "versions": {name: version(name) for name in ("torch", "diffusers", "gym-pusht", "gymnasium", "pymunk")},
+    "versions": {name: version(name) for name in ("torch", "gym-pusht", "gymnasium", "pymunk")},
     "benchmark_reproduction": False, "hardware_tested": False,
     "third_party_adoption_or_human_labor_saving_verified": False,
 }

@@ -6,19 +6,33 @@ Source: https://huggingface.co/lerobot/vqbet_pusht/tree/15c2d0af889c401c7e5db7a0
 
 ## Use
 
-Use a Python3.12 environment with LeRobot at commit89236ea0f4f81a81ca566081e20dd1ff5f823cbe and its `pusht` extra. Existing validation used torch2.11.0, gym-pusht0.1.6, gymnasium1.3.0 and pymunk6.11.1. A fresh environment installation was not repeated while packaging. Runtime dependencies take additional space beyond the158MB source model.
+In a new directory, extract `vqbet-pusht-kit.zip` and enter its `vqbet-pusht-kit` directory. With `uv` and Git installed, these commands create a Python 3.12 environment and select the verified LeRobot source commit and key runtime versions:
 
 ```sh
-python prepare.py
-# Or reuse your original downloaded weights without a network request:
-python prepare.py --source /path/to/original/model.safetensors --output my-vqbet
+uv venv --python 3.12 .venv
+uv pip install --python .venv/bin/python \
+  "lerobot[pusht] @ git+https://github.com/huggingface/lerobot.git@89236ea0f4f81a81ca566081e20dd1ff5f823cbe" \
+  'torch==2.11.0' 'torchvision==0.26.0' \
+  'gym-pusht==0.1.6' 'gymnasium==1.3.0' 'pymunk==6.11.1'
+.venv/bin/python prepare.py
+SDL_VIDEODRIVER=dummy PYGAME_HIDE_SUPPORT_PROMPT=1 \
+  .venv/bin/python evaluate_vqbet.py --checkpoint vqbet-pusht \
+  --device cpu --seed 200011 --report episode.json
 ```
 
-For one local simulated episode in that environment:
+These shell paths are for macOS/Linux. This release was checked on macOS 26.6.2, Apple M4, Python 3.12.13; Linux, Windows and CUDA were not tested. Runtime dependencies require additional download space beyond the 158 MB source weights. `diffusers` is not needed by this VQ-BeT evaluator.
+
+The fresh-environment check installed a local `git archive` of exactly the commit above with `pusht`, gym-pusht 0.1.6 and pymunk 6.11.1, fetching dependencies online. It resolved to the runtime versions pinned above. The Git URL install transport itself was not re-exercised. Model reconstruction reused a previously downloaded original weight file:
 
 ```sh
-SDL_VIDEODRIVER=dummy PYGAME_HIDE_SUPPORT_PROMPT=1 python evaluate_vqbet.py --checkpoint vqbet-pusht --device cpu --seed 200011 --report episode.json
+.venv/bin/python prepare.py --source /path/to/original/model.safetensors --output my-vqbet
 ```
+
+The fixed evaluator completed one CPU setup smoke (seed 200011, 95 steps, success) and wrote a finite report without `diffusers` installed. This is setup validation on a previously used seed, not a new success-rate benchmark. See `setup-verification.json`. The earlier `reconstruction-verification.json` records the original packaging run; its no-fresh-install/no-new-inference fields apply to that earlier run.
+
+### Fix in vqbet-v2026.09.15.1
+
+The original companion evaluator asked for the installed `diffusers` version when constructing the final report. A clean `pusht` installation does not install that optional library, so this lookup could raise `PackageNotFoundError` after the episode. This patch removes only that unused metadata lookup. Policy execution, checkpoint files and the original evaluation groups are unchanged. The historical release remains available.
 
 On a compatible Apple Silicon environment, `--device mps` selects MPS. The saved default is CPU. Model loading uses strict state-dictionary matching. The evaluator does not include the experimental warmup or recovery modifications. Its report path is written by the evaluator; choose a new filename to preserve earlier results.
 
