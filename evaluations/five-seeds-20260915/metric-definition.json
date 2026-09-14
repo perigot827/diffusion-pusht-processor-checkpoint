@@ -1,0 +1,11 @@
+{
+  "success": "any info.is_success during at most 300 environment steps",
+  "installed_environment_definition": "coverage > 0.95",
+  "reported_reward": "clip(coverage / 0.95, 0, 1), not raw overlap coverage",
+  "source_sha256": "becc03430fb2a1f8d7f2d2a0d483198dd3e3c4da89cc23ed5cbde2f93d412ddf",
+  "not_directly_comparable_to_upstream_raw_overlap_metric": true,
+  "control_hz": 10,
+  "simulated_seconds_per_environment_step": 0.1,
+  "elapsed_timer_excludes_model_loading": true,
+  "source_module": "gym_pusht.envs.pusht"
+}

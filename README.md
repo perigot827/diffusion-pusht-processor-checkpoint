@@ -39,6 +39,8 @@ SDL_VIDEODRIVER=dummy PYGAME_HIDE_SUPPORT_PROMPT=1 HF_HUB_OFFLINE=1 HF_DATASETS_
 
 The evaluator runs one seed (100000 by default), at most 300 environment steps, with 100 diffusion sampling steps. It does not retrain the model. The final checkpoint succeeded in one MPS smoke rollout: 251 environment steps, maximum reward 1.0. This is not a reproduction of the upstream 500-episode benchmark.
 
+**Additional fixed-seed checks:** the same checkpoint subsequently succeeded in **1 of 5 predeclared MPS episodes** (100001–100005); all five completed without runtime errors. These runs took 5.97–6.36 times simulated time on the tested Mac. See [all five outcomes, conditions and reproduction commands](evaluations/five-seeds-20260915/RESULTS.md), including the four unsuccessful episodes. This small check does not establish general reliability or real-time robot readiness.
+
 ## Evidence
 
 - Original model revision: `84a7c23178445c6bbf7e1a884ff497017910f653`; SHA-256 `995d14d35db57d95c35ad9704c3d79c8612b7bc45f3877e5c46c2cdc516856a8`.

@@ -1,0 +1,33 @@
+{
+  "state": "PREDECLARED_BEFORE_EXECUTION",
+  "created_at": "2026-09-15T01:29:54.097794+09:00",
+  "seeds": [
+    100001,
+    100002,
+    100003,
+    100004,
+    100005
+  ],
+  "prior_seed_100000_excluded": true,
+  "maximum_environment_steps_per_episode": 300,
+  "diffusion_steps": 100,
+  "device": "mps",
+  "execution": "sequential separate process per seed; stop on process failure, retain every attempted outcome; no automatic retry",
+  "evaluator_sha256": "9978be8b6bcf59a9e2859f21b97e0318d5d1d89d5c0ec10577946e1bcba6dba7",
+  "checkpoint_files": {
+    "model.safetensors": "42bddc7d0fe1ef928d708c207a2c9bb8ab7166c2d2b28d3c6abb955e18fb7594",
+    "LICENSE": "0583375a0ec642ec79c447781f34322b0cfa66baff31258214d040f1f6d86d7c",
+    "policy_preprocessor_step_3_normalizer_processor.safetensors": "392af8778e650720aa230904998d2c11184583d956f0b7eada100afd09bf2378",
+    "config.json": "827862a5d541abb0c290cf08998d704eaf59a21be7540487a180e7e9c3caef24",
+    "policy_postprocessor.json": "ad8e4dddbce1ab75a1d52b3fc8b65c7daeef49587516ba84406159e5789795d5",
+    "policy_preprocessor.json": "2f22a1e9ccc0392b2076419e87e426cba1082927ec65fa215e8bf9e39da33f9b",
+    "README.md": "da1b558b016e52b72c92dbf3a6b6b2686deffc55982440ada464ef7d7551c627",
+    "UPSTREAM_MODEL_CARD.md": "122b7d5067abfaf7e2ac44e6ab184bee8fb5c58d777e82d5c92bd3849dd308c3",
+    "policy_postprocessor_step_0_unnormalizer_processor.safetensors": "392af8778e650720aa230904998d2c11184583d956f0b7eada100afd09bf2378",
+    "SHA256SUMS": "4e8463e414c8eb79a7182f8048b4ecd62a90b1c058f9b52fc248c90d541830b6"
+  },
+  "lerobot_revision": "89236ea0f4f81a81ca566081e20dd1ff5f823cbe",
+  "environment": "offline existing Python3.12 environment; no download/training/hardware",
+  "interpretation": "Five fixed initial states, not a population estimate or reproduction of official 500 episodes. Record failures as well as successes.",
+  "retrieval_status": "no_reliable_hit"
+}

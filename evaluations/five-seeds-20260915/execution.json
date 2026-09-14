@@ -1,0 +1,72 @@
+{
+  "state": "COMPLETED_ALL_PREDECLARED_SEEDS",
+  "outcomes": [
+    {
+      "seed": 100001,
+      "exit_code": 0,
+      "report": "seed-100001.json",
+      "success": false,
+      "steps": 300,
+      "maximum_reward": 0.9480164864772304,
+      "all_actions_finite": true,
+      "elapsed_seconds": 183.67105045900098,
+      "terminated": false,
+      "truncated": true
+    },
+    {
+      "seed": 100002,
+      "exit_code": 0,
+      "report": "seed-100002.json",
+      "success": false,
+      "steps": 300,
+      "maximum_reward": 0.9832883191719929,
+      "all_actions_finite": true,
+      "elapsed_seconds": 179.0397621250013,
+      "terminated": false,
+      "truncated": true
+    },
+    {
+      "seed": 100003,
+      "exit_code": 0,
+      "report": "seed-100003.json",
+      "success": true,
+      "steps": 129,
+      "maximum_reward": 1.0,
+      "all_actions_finite": true,
+      "elapsed_seconds": 82.06240270800481,
+      "terminated": true,
+      "truncated": false
+    },
+    {
+      "seed": 100004,
+      "exit_code": 0,
+      "report": "seed-100004.json",
+      "success": false,
+      "steps": 300,
+      "maximum_reward": 0.9954824282636804,
+      "all_actions_finite": true,
+      "elapsed_seconds": 182.1695609169983,
+      "terminated": false,
+      "truncated": true
+    },
+    {
+      "seed": 100005,
+      "exit_code": 0,
+      "report": "seed-100005.json",
+      "success": false,
+      "steps": 300,
+      "maximum_reward": 0.9957206348469589,
+      "all_actions_finite": true,
+      "elapsed_seconds": 188.4184737080068,
+      "terminated": false,
+      "truncated": true
+    }
+  ],
+  "successful_episodes": 1,
+  "completed_episodes": 5,
+  "elapsed_seconds": 870.86686625,
+  "benchmark_reproduction": false,
+  "hardware_tested": false,
+  "human_labor_saving_verified": false,
+  "retrieval_status": "no_reliable_hit"
+}
