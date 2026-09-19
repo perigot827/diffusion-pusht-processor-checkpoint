@@ -21,6 +21,8 @@ Preparation needs torch, safetensors and huggingface-hub; the model-loading exam
 
 The script stores original weights in `.diffusion-pusht-source` and creates `diffusion-pusht`. Allow about 2.2 GB for those weights in addition to the Python environment. It verifies the original and generated model SHA-256, preserves the input, and refuses an existing output directory. On a later run, choose a new `--output` directory. The original download can be reused.
 
+Before installing runtime dependencies or downloading learned weights, use the [offline, read-only structural preflight](docs/PREFLIGHT.md) on a local saved checkpoint. It is not an inference or compatibility check.
+
 To prepare fully offline from an already-downloaded original model:
 
 ```sh
